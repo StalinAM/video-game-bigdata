@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<configuration>
+
+    <!-- Dirección del NameNode -->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://namenode:9000</value>
+    </property>
+
+    <!-- Directorio temporal de Hadoop -->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/hadoop/tmp</value>
+    </property>
+
+</configuration>
