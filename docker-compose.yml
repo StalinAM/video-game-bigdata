@@ -67,6 +67,19 @@ services:
     networks:
       - hadoop
 
+  api:
+    build: ./api
+    container_name: api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    depends_on:
+      - spark-master
+    networks:
+      - hadoop
+
 networks:
   hadoop:
     driver: bridge

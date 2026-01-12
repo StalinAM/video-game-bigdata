@@ -28,4 +28,16 @@ reviews_platform = df_clean.groupBy("platform") \
 
 reviews_platform.show()
 
+# Guardar resultados en CSV para que la API los pueda leer
+avg_score.coalesce(1).write.mode("overwrite").option("header", "true").csv("/data/results_temp")
+
+# Leer el CSV generado y guardarlo en el formato final
+results_df = spark.read.option("header", "true").csv("/data/results_temp")
+results_df.write.mode("overwrite").option("header", "true").csv("/data/results.csv")
+
+# Limpiar archivo temporal
+import subprocess
+subprocess.run(["rm", "-rf", "/data/results_temp"], check=False)
+
 spark.stop()
+
