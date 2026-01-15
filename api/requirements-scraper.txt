@@ -1,0 +1,2 @@
+# Dependencias para obtener nombres de productos vía ScrapingBee API
+requests
