@@ -1,26 +1,6 @@
 # 🎮 Video Game Big Data - Análisis con Hadoop, Spark y FastAPI
 
-Sistema completo de análisis de reseñas de videojuegos utilizando tecnologías Big Data (HDFS, Spark) con una API REST para cEl análisis completo generará **15 archivos CSV** con análisis detallados.
-
-**Análisis Incluidos:**
-
-| #   | Análisis                              | Archivo CSV                    |
-| --- | ------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| 1   | Estadísticas globales                 | `global_statistics.csv`        |
-| 2   | Distribución de ratings               | `rating_distribution.csv`      |
-| 3   | Actividad por año                     | `yearly_activity.csv`          |
-| 4   | Actividad por mes                     | `monthly_activity.csv`         |
-| 5   | Actividad por día de semana           | `day_of_week_analysis.csv`     |
-| 6   | Top 1000 juegos más reseñados         | `top_reviewed_games.csv`       |
-| 7   | Top 1000 juegos mejor valorados       | `top_rated_games.csv`          |
-| 8   | Top 1000 juegos peor valorados        | `worst_rated_games.csv`        |
-| 9   | Longitud de texto vs rating           | `length_vs_rating.csv`         |
-| 10  | Palabras frecuentes positivas         | `positive_words_frequency.csv` |
-| 11  | Palabras frecuentes negativas         | `negative_words_frequency.csv` |
-| 12  | Detección de outliers                 | `rating_outliers.csv`          |
-| 13  | Reseñas verificadas vs no verificadas | `verified_statistics.csv`      |
-| 14  | Reseñas más útiles (helpful votes)    | `helpful_votes_analysis.csv`   |
-| 15  | Top 1000 reviewers más activos        | `top_reviewers.csv`            | s resultados. Incluye integración con **Easyparser API** para obtener nombres de productos de Amazon en tiempo real. |
+Sistema completo de análisis de reseñas de videojuegos utilizando tecnologías Big Data (HDFS, Spark) con una API REST para consultar los resultados. Incluye integración con **Easyparser API** para obtener nombres de productos de Amazon en tiempo real.
 
 ## 📋 Requisitos Previos
 
@@ -36,14 +16,14 @@ Sistema completo de análisis de reseñas de videojuegos utilizando tecnologías
 ┌─────────────────────────────────────────────────────────────────────┐
 │                   DENTRO DE DOCKER (VOLUMEN INTERNO)                │
 │                                                                     │
-│  1. HDFS (namenode) → /videogames/Video_Games.json                 │
+│  1. HDFS (namenode) → /videogames/Video_Games.json                  │
 │                           ↓                                         │
-│  2. Spark procesa y genera 15 análisis                             │
-│     → shared-data:/data/results/*.csv (volumen interno)            │
+│  2. Spark procesa y genera 15 análisis                              │
+│     → shared-data:/data/results/*.csv (volumen interno)             │
 │                           ↓                                         │
-│  3. API lee CSVs y consulta Easyparser API                         │
-│     → shared-data:/data/results/*.csv + Easyparser                 │
-│     → Caché de productos: /data/results/*.json                     │
+│  3. API lee CSVs y consulta Easyparser API                          │
+│     → shared-data:/data/results/*.csv + Easyparser                  │
+│     → Caché de productos: /data/results/*.json                      │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
                             │
@@ -210,17 +190,25 @@ MSYS_NO_PATHCONV=1 docker exec spark-master /spark/bin/spark-submit /opt/spark-a
 docker exec spark-master /spark/bin/spark-submit /opt/spark-apps/comprehensive_analysis_simple.py
 ```
 
-El análisis completo generará **15 archivos CSV** con análisis detallados.
+El análisis completo generará **15 archivos CSV** con análisis detallados:
 
-- 📈 **Estadísticas globales** (media, mediana, varianza, desv. estándar)
-- 📊 **Distribución de ratings** (conteo y porcentaje por calificación)
-- 📅 **Análisis temporal** (actividad por año, mes y día de semana)
-- 🎮 **Top juegos** (más reseñados, mejor/peor valorados)
-- **Análisis de texto** (palabras frecuentes positivas/negativas, longitud vs rating)
-- 🔍 **Detección de outliers** (reseñas anómalas)
-- ✓ **Verificación** (comparación verified vs no verified)
-- 👍 **Helpful votes** (reseñas más útiles)
-- 👥 **Top reviewers** (usuarios más activos)
+| #   | Análisis                              | Archivo CSV                    |
+| --- | ------------------------------------- | ------------------------------ |
+| 1   | Estadísticas globales                 | `global_statistics.csv`        |
+| 2   | Distribución de ratings               | `rating_distribution.csv`      |
+| 3   | Actividad por año                     | `yearly_activity.csv`          |
+| 4   | Actividad por mes                     | `monthly_activity.csv`         |
+| 5   | Actividad por día de semana           | `day_of_week_analysis.csv`     |
+| 6   | Top 1000 juegos más reseñados         | `top_reviewed_games.csv`       |
+| 7   | Top 1000 juegos mejor valorados       | `top_rated_games.csv`          |
+| 8   | Top 1000 juegos peor valorados        | `worst_rated_games.csv`        |
+| 9   | Longitud de texto vs rating           | `length_vs_rating.csv`         |
+| 10  | Palabras frecuentes positivas         | `positive_words_frequency.csv` |
+| 11  | Palabras frecuentes negativas         | `negative_words_frequency.csv` |
+| 12  | Detección de outliers                 | `rating_outliers.csv`          |
+| 13  | Reseñas verificadas vs no verificadas | `verified_statistics.csv`      |
+| 14  | Reseñas más útiles (helpful votes)    | `helpful_votes_analysis.csv`   |
+| 15  | Top 1000 reviewers más activos        | `top_reviewers.csv`            |
 
 **Salida esperada del análisis completo:**
 
@@ -281,10 +269,6 @@ docker exec spark-master head -n 10 /data/results/global_statistics.csv
 # Top 10 juegos más reseñados
 docker exec spark-master head -n 11 /data/results/top_reviewed_games.csv
 ```
-
-### Paso 10: Probar la API
-
-La API está disponible en **http://localhost:8000** con 17 endpoints organizados en 8 categorías.
 
 ### Paso 10: Probar la API
 
@@ -416,12 +400,6 @@ curl "http://localhost:8000/games/top-reviewed?limit=10"
 curl http://localhost:8000/statistics/global
 ```
 
-### Ejemplo 1: Obtener Estadísticas Globales
-
-```bash
-curl http://localhost:8000/statistics/global
-```
-
 **Respuesta:**
 
 ```json
@@ -491,8 +469,6 @@ curl "http://localhost:8000/text/positive-words?limit=10"
 ```
 
 ---
-
-## 🔧 Comandos Útiles para Administración
 
 ## 🔧 Comandos Útiles para Administración
 
@@ -584,139 +560,6 @@ docker exec api ping spark-master
 docker exec spark-master ping namenode
 ```
 
-## 📊 Endpoints de la API
-
-| Método | Endpoint | Descripción                                                 |
-| ------ | -------- | ----------------------------------------------------------- |
-| GET    | `/`      | Mensaje de bienvenida                                       |
-| GET    | `/stats` | Estadísticas de videojuegos (asin, avg_score, review_count) |
-| GET    | `/docs`  | Documentación interactiva Swagger UI                        |
-| GET    | `/redoc` | Documentación alternativa ReDoc                             |
-
-## 🐛 Solución de Problemas
-
-### Error: "Cannot connect to Docker daemon"
-
-**Problema**: Docker Desktop no está ejecutándose.
-
-```bash
-# Verificar versión de Docker
-docker --version
-
-# En Windows, asegúrate de que Docker Desktop esté corriendo
-```
-
-**Solución**: Inicia Docker Desktop y espera a que esté completamente cargado.
-
----
-
-### Error: "port is already allocated"
-
-**Problema**: Los puertos 8000, 8080, 9000 o 9870 ya están en uso.
-
-```bash
-# Detener contenedores que usen los puertos
-docker-compose down
-
-# Verificar qué proceso usa un puerto (Windows)
-netstat -ano | findstr :8000
-
-# Matar proceso por PID (reemplaza 1234 con el PID real)
-taskkill /PID 1234 /F
-```
-
-**Solución Alternativa**: Cambiar los puertos en `docker-compose.yml`:
-
-```yaml
-api:
-  ports:
-    - '8001:8000' # Cambiar puerto host de 8000 a 8001
-```
-
----
-
-### Error: "No such file or directory" al ejecutar spark-submit
-
-**Problema**: Git Bash en Windows convierte rutas automáticamente.
-
-```bash
-# ❌ Incorrecto (Git Bash)
-docker exec spark-master /spark/bin/spark-submit /opt/spark-apps/spark_analysis.py
-
-# ✅ Correcto (Git Bash)
-MSYS_NO_PATHCONV=1 docker exec spark-master /spark/bin/spark-submit /opt/spark-apps/spark_analysis.py
-
-# ✅ Correcto (PowerShell)
-docker exec spark-master /spark/bin/spark-submit /opt/spark-apps/spark_analysis.py
-```
-
----
-
-### Error: "Analysis not found" en la API
-
-**Problema**: Los archivos CSV no han sido generados por Spark.
-
-```bash
-# Verificar si existen los archivos
-docker exec spark-master ls -la /data/results/
-
-# Si el directorio está vacío, ejecutar el análisis
-MSYS_NO_PATHCONV=1 docker exec spark-master /spark/bin/spark-submit /opt/spark-apps/comprehensive_analysis_simple.py
-```
-
----
-
-### Error: HDFS está en "Safe Mode"
-
-**Problema**: HDFS no permite escrituras porque está en modo seguro.
-
-```bash
-# Verificar estado de HDFS
-docker exec namenode hdfs dfsadmin -safemode get
-
-# Salir del modo seguro
-docker exec namenode hdfs dfsadmin -safemode leave
-```
-
----
-
-### Error: "Easyparser API authentication failed"
-
-**Problema**: La API Key de Easyparser no está configurada o es inválida.
-
-**Solución**:
-
-1. Verifica que configuraste tu API Key en `api/amazon_scraper.py` (línea 15)
-2. Reconstruye el contenedor de la API:
-
-```bash
-docker-compose build api && docker-compose up -d api
-```
-
-3. Verifica que la API Key sea correcta consultando el dashboard de Easyparser
-
----
-
-### Error: "Connection timeout" al subir archivo a HDFS
-
-**Problema**: El contenedor namenode no está listo o hay problemas de red.
-
-**Solución**:
-
-```bash
-# Esperar 60 segundos y reintentar
-sleep 60
-
-# Verificar que namenode está corriendo
-docker ps | grep namenode
-
-# Verificar logs de namenode
-docker logs namenode --tail 50
-
-# Reiniciar namenode si es necesario
-docker-compose restart namenode
-```
-
 ---
 
 ### Productos devuelven "N/A - Título no encontrado"
@@ -730,20 +573,6 @@ docker-compose restart namenode
 - Ser regionales (solo disponibles en ciertos países)
 
 **Solución**: Los productos con `"status": "success"` tienen información válida. Usa esos para tus análisis.
-
----
-
-### API lenta en primera consulta de productos
-
-**Problema**: La primera consulta a Easyparser puede tardar 10-30 segundos.
-
-**Explicación**: Esto es **normal** porque:
-
-- Se consulta la API externa de Easyparser
-- Se procesan 5 productos en secuencia
-- Se guarda el caché en JSON
-
-**Solución**: Las consultas subsecuentes son instantáneas gracias al caché.
 
 ---
 
@@ -903,64 +732,6 @@ video-game-bigdata/
 - `verified`: Si la compra fue verificada
 - `helpful`: Votos de utilidad [útiles, totales]
 
-## 📈 Próximos Pasos y Mejoras
-
-### Funcionalidades Planificadas
-
-- [ ] **Variables de entorno**: Externalizar API Key de Easyparser a `.env`
-- [ ] **Filtros avanzados**: Búsqueda por rango de fechas, rating, plataforma
-- [ ] **Análisis de sentimiento**: Clasificación automática de reseñas (positivo/negativo/neutral)
-- [ ] **Gráficos y visualizaciones**: Endpoint para generar gráficos con matplotlib/plotly
-- [ ] **Recomendaciones**: Sistema de recomendación basado en similitud de reseñas
-- [ ] **Caché Redis**: Reemplazar caché en archivo por Redis para mejor rendimiento
-- [ ] **Autenticación**: JWT tokens para proteger endpoints
-- [ ] **Rate limiting**: Limitar número de peticiones por IP
-- [ ] **Webhooks**: Notificaciones cuando se complete el análisis de Spark
-- [ ] **Paginación**: Soporte para grandes resultados con offset/limit
-- [ ] **Export formats**: Permitir descargar resultados en CSV, Excel, JSON
-
-### Mejoras Técnicas
-
-- [ ] **Tests automatizados**: Pytest para API y Spark jobs
-- [ ] **CI/CD**: GitHub Actions para despliegue automático
-- [ ] **Logging estructurado**: ELK Stack (Elasticsearch, Logstash, Kibana)
-- [ ] **Monitoreo**: Prometheus + Grafana para métricas en tiempo real
-- [ ] **Optimización Spark**: Particionamiento y caching estratégico
-- [ ] **Compresión**: Usar Parquet en lugar de CSV para mejor rendimiento
-- [ ] **Spark Streaming**: Análisis en tiempo real de nuevas reseñas
-- [ ] **Multi-idioma**: Soporte para análisis en español, francés, etc.
-
-### Despliegue en Producción
-
-- [ ] **Kubernetes**: Orquestar contenedores con K8s
-- [ ] **Cloud deployment**: AWS EMR, Azure HDInsight, Google Dataproc
-- [ ] **Load balancing**: Nginx para distribuir tráfico de la API
-- [ ] **HTTPS**: Certificados SSL con Let's Encrypt
-- [ ] **CDN**: CloudFlare para caché de respuestas estáticas
-- [ ] **Database**: PostgreSQL para almacenar resultados procesados
-- [ ] **Backup automático**: Respaldos diarios de HDFS y resultados
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para contribuir:
-
-1. Fork el repositorio
-2. Crea una rama con tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-### Áreas que Necesitan Ayuda
-
-- � Reportar bugs y problemas
-- 📝 Mejorar documentación
-- 🧪 Escribir tests
-- 🎨 Crear visualizaciones
-- 🌐 Traducir a otros idiomas
-- ⚡ Optimizar rendimiento de Spark
-
-## 📚 Recursos Adicionales
-
 ### Documentación Oficial
 
 - [Apache Spark](https://spark.apache.org/docs/latest/)
@@ -969,101 +740,6 @@ Las contribuciones son bienvenidas. Para contribuir:
 - [Docker](https://docs.docker.com/)
 - [Easyparser API](https://easyparser.com/docs)
 
-### Tutoriales Relacionados
-
-- [PySpark Tutorial](https://spark.apache.org/docs/latest/api/python/)
-- [HDFS Commands](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html)
-- [FastAPI Best Practices](https://fastapi.tiangolo.com/tutorial/)
-
 ### Dataset Original
 
 - [Amazon Customer Reviews Dataset](https://nijianmo.github.io/amazon/index.html)
-
-## ❓ Preguntas Frecuentes (FAQ)
-
-### ¿Cuánto tiempo tarda el análisis completo?
-
-Entre 5-10 minutos dependiendo de tu hardware. Con 8GB RAM y CPU moderna, aproximadamente 6-7 minutos.
-
-### ¿Puedo usar mi propio dataset?
-
-Sí, solo necesitas:
-
-1. Convertir tu dataset a JSON
-2. Copiar el archivo a HDFS
-3. Modificar `comprehensive_analysis_simple.py` para adaptarlo a tu esquema
-
-### ¿Los datos se pierden al reiniciar Docker?
-
-No, los volúmenes de Docker (`namenode`, `datanode`, `shared-data`) son **persistentes**. Los datos sobreviven a reinicios. Solo se pierden si ejecutas `docker-compose down -v`.
-
-### ¿Necesito una API Key de Easyparser?
-
-Solo si quieres usar los endpoints `/products/*` que obtienen nombres de Amazon. Los otros 14 endpoints funcionan sin API Key.
-
-### ¿Cuántas consultas tengo con la API gratuita de Easyparser?
-
-Consulta el plan gratuito de Easyparser en su [página de precios](https://easyparser.com/pricing). El sistema de caché minimiza las consultas necesarias.
-
-### ¿Puedo escalar a más workers de Spark?
-
-Sí, edita `docker-compose.yml` y agrega más servicios `spark-worker-2`, `spark-worker-3`, etc.
-
-### ¿Funciona en Mac/Linux?
-
-Sí, el proyecto es multiplataforma. En Linux/Mac no necesitas `MSYS_NO_PATHCONV=1`.
-
-## 🐞 Reporte de Bugs
-
-Si encuentras un bug, por favor [abre un issue](https://github.com/StalinAM/video-game-bigdata/issues) con:
-
-- Descripción del problema
-- Pasos para reproducir
-- Logs relevantes (`docker logs`)
-- Sistema operativo y versión de Docker
-
-## �👤 Autor
-
-**Stalin Andrade**
-
-- GitHub: [@StalinAM](https://github.com/StalinAM)
-- Email: [tu-email@example.com]
-- LinkedIn: [Tu perfil de LinkedIn]
-
-## 📝 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la **Licencia MIT**.
-
-```
-MIT License
-
-Copyright (c) 2026 Stalin Andrade
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
-
-## ⭐ Dale una Estrella
-
-Si este proyecto te resultó útil, considera darle una ⭐ en GitHub. ¡Gracias!
-
----
-
-**¿Preguntas o problemas?** Abre un [issue en GitHub](https://github.com/StalinAM/video-game-bigdata/issues) o consulta la [documentación completa](http://localhost:8000/docs).
