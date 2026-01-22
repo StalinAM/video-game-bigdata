@@ -30,6 +30,21 @@ services:
       - namenode
     networks:
       - hadoop
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    restart: always
+    environment:
+      - CLUSTER_NAME=videogames
+      - SERVICE_PRECONDITION=namenode:9870
+    volumes:
+      - datanode2:/hadoop/dfs/data
+      - ./hadoop/core-site.xml:/opt/hadoop-3.2.1/etc/hadoop/core-site.xml
+      - ./hadoop/hdfs-site.xml:/opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml
+    depends_on:
+      - namenode
+    networks:
+      - hadoop
 
   spark-master:
     image: bde2020/spark-master:3.3.0-hadoop3.3
@@ -49,6 +64,7 @@ services:
     depends_on:
       - namenode
       - datanode
+      - datanode2
     networks:
       - hadoop
 
@@ -87,4 +103,5 @@ networks:
 volumes:
   namenode:
   datanode:
+  datanode2:
   shared-data:

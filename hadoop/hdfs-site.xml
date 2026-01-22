@@ -4,7 +4,7 @@
     <!-- Factor de replicación (1 para entorno local) -->
     <property>
         <name>dfs.replication</name>
-        <value>1</value>
+        <value>2</value>
     </property>
 
     <!-- Directorio del NameNode -->
