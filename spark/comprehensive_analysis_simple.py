@@ -4,6 +4,7 @@
 Análisis Completo de Reseñas de Videojuegos - Versión Simplificada
 Sin dependencias de ML libraries (no requiere numpy)
 """
+import time
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
@@ -15,6 +16,8 @@ from pyspark.sql.window import Window
 import os
 import glob
 import shutil
+
+start_time = time.time()
 
 # Función helper para guardar resultados (basada en spark_analysis.py)
 def save_result(df, name):
@@ -272,5 +275,7 @@ print("\n" + "="*60)
 print("✅ Análisis completo finalizado!")
 print(f"📁 15 archivos generados en /data/results/")
 print("="*60)
-
+end_time = time.time()
+elapsed = end_time - start_time
+print(f"⏱️ Tiempo total de ejecución: {elapsed:.2f} segundos")
 spark.stop()
